@@ -1,0 +1,8 @@
+# for requirements
+pip install -r requirements.txt
+
+
+# for db
+create user uslugi_user with password 'uslugi_root';
+create database uslugi_db owner uslugi_user;
+
