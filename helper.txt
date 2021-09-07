@@ -6,3 +6,5 @@ pip install -r requirements.txt
 create user uslugi_user with password 'uslugi_root';
 create database uslugi_db owner uslugi_user;
 
+# for migrations
+py manage.py makemigrations && py manage.py migrate
