@@ -11,10 +11,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
+
+# import environ
+#
+#
+# env = environ.Env(
+#     # set casting, default value
+#     DEBUG=(bool, False)
+# )
+
+
+
+
+# from dotenv import load_dotenv
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -23,7 +38,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!%wzb$wenko@j%5hp@b2ha%jao9+qlh9&zo1+$nrjb@c%i587m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=True)
 
 ALLOWED_HOSTS = []
 
@@ -85,11 +100,11 @@ WSGI_APPLICATION = 'src.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv("DB_NAME", "uslugi_db"),
-        'USER': os.getenv("DB_USER", "uslugi_user"),
-        'PASSWORD': os.getenv("DB_PASSWORD", "uslugi_root"),
-        'HOST': os.getenv("DB_HOST", "127.0.0.1"),
-        'PORT': os.getenv("DB_PORT", "5432"),
+        'NAME': config('DB_NAME', cast=str, default="uslugi_db"),
+        'USER': config("DB_USER",cast=str, default="uslugi_user"),
+        'PASSWORD': config("DB_PASSWORD",cast=str, default="uslugi_root"),
+        'HOST': config("DB_HOST",cast=str, default="127.0.0.1"),
+        'PORT': config("DB_PORT",cast=str, default="5432"),
     }
 }
 
@@ -114,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-TOKEN_KEY = "1511848339:AAFejM4Us3bcdyNMNadrC-kHtk_1WzdoLxI"
+TOKEN_KEY = config("TOKEN_KEY","1")
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
