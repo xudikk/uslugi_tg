@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-TOKEN_KEY = "1511848339:AAFejM4Us3bcdyNMNadrC-kHtk_1WzdoLxI"
+TOKEN_KEY = os.getenv("TOKEN_KEY","1718173284:AAE4LhtowGkXBx17uFo-kJ6-AWddjpxOQ-s")
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
