@@ -4,7 +4,7 @@ Texts = {
 
     'TEXT_HOME': {
         1: 'Bo`limlardam birini tanlang',
-        2: 'Bo`limlardam birini tanlang'
+        2: 'Выберите один из разделов'
     },
     'BTN_CREATE_AD': {
         1: 'E\'lon berish',

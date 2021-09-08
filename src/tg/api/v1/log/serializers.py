@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from yesboss.tg.models import Log
+from tg.models import Log
 
 
 class UserLogSerializer(serializers.ModelSerializer):

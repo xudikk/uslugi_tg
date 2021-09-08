@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tg',
+    'geo'
 ]
 
 MIDDLEWARE = [
@@ -129,7 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-TOKEN_KEY = config("TOKEN_KEY","1")
+TOKEN_KEY = config("TOKEN_KEY", "1")
+# TOKEN_KEY = "1511848339:AAFejM4Us3bcdyNMNadrC-kHtk_1WzdoLxI"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -160,3 +162,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PAGINATE_BY = 1
+
+API_URL = "http://127.0.0.1:8000/tg/api/v1/"

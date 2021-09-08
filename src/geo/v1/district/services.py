@@ -5,27 +5,34 @@ from collections import OrderedDict
 from django.db import connection
 from django.conf import settings
 
-from base.utils.db import dictfetchall, dictfetchone
-from base.utils.sqlpaginator import SqlPaginator
+from yesboss.base.utils.db import dictfetchone, dictfetchall
+from yesboss.base.utils.sqlpaginator import SqlPaginator
 
 PER_PAGE = settings.PAGINATE_BY
 
 
-def list_lng(request):
+def list_model(request):
     try:
         page = int(request.GET.get('page', 1))
     except:
         page = 1
+    try:
+        region = int(request.GET.get('region', 0))
+    except:
+        region = 0
     offset = (page - 1) * PER_PAGE
+    if region:
+        where = f"where geo_district.region_id={region}"
+    else:
+        where = ""
 
     extra_sql = f"""
-    
-    select id, name->>'uz' as name_uz, name->>'ru' as name_ru, 
-    alias, sort_order  
-    from tg_languages
-    order by id desc
+    select geo_district.id, geo_district.name->>'uz' as name_uz, geo_district.name->>'ru' as name_ru, geo_district.sort_order,
+    geo_region.id as region_id, geo_region.name->>'uz' as region_name_uz, geo_region.name->>'ru' as region_name_ru, geo_region.sort_order as region_sort_order
+    from geo_district
+    inner join geo_region on geo_district.region_id=geo_region.id {where}
+    order by geo_district.sort_order asc
     limit %s OFFSET %s
-    
 """
     with closing(connection.cursor()) as cursor:
         cursor.execute(extra_sql, [PER_PAGE, offset])
@@ -36,7 +43,7 @@ def list_lng(request):
 
     with closing(connection.cursor()) as cursor:
         cursor.execute(
-            "SELECT count(1) as cnt from tg_languages")
+            "SELECT count(1) as cnt from geo_district")
         row = dictfetchone(cursor)
 
     if row:
@@ -53,10 +60,13 @@ def list_lng(request):
     ])
 
 
-def one_lng(request, pk):
+def one_model(request, pk):
     extra_sql = f"""
-    select id, name->>'uz' as name_uz, name->>'ru' as name_ru, alias, sort_order  from tg_languages
-    where id = %s
+    select geo_district.id, geo_district.name->>'uz' as name_uz, geo_district.name->>'ru' as name_ru, geo_district.sort_order,
+    geo_region.id as region_id, geo_region.name->>'uz' as region_name_uz, geo_region.name->>'ru' as region_name_ru, geo_region.sort_order as region_sort_order
+    from geo_district
+    inner join geo_region on geo_district.region_id=geo_region.id
+    where geo_district.id = %s
     """
 
     with closing(connection.cursor()) as cursor:
@@ -78,7 +88,13 @@ def _format(data):
             "uz": data['name_uz'],
             'ru': data['name_ru']
         }),
-        ('alias', data['alias']),
         ('sort_order', data['sort_order']),
-
+        ('region', OrderedDict([
+                ('id', data['region_id']),
+                ('name', {
+                    "uz": data['region_name_uz'],
+                    'ru': data['region_name_ru']
+                }),
+                ('sort_order', data['region_sort_order'])
+            ]))
     ])

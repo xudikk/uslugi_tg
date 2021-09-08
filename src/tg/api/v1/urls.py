@@ -1,11 +1,11 @@
 from django.urls import path
 
-from .language.views import LanguagesView
-
+from tg.api.v1.log.views import UserLogView
+from tg.api.v1.user.views import UserView
 
 urlpatterns = [
-
-    path('languages/', LanguagesView.as_view(), name='hr-language-list'),
-    path('languages/<int:pk>/', LanguagesView.as_view(), name='hr-language-one'),
+    path('log/<int:user_id>/', UserLogView.as_view(), name='user_log'),
+    path('user/<int:user_id>/', UserView.as_view(), name='tg_user'),
+    path('user/', UserView.as_view(), name='tg_user'),
 
 ]

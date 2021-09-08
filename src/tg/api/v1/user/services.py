@@ -10,8 +10,8 @@ from base.utils.db import dictfetchall, dictfetchone
 
 def one_product(request, tg_id):
     extra_sql = f"""
-    select user_id, messages
-    from tg_log
+    select user_id, first_name, last_name, user_name, lang, menu_log
+    from tg_user
     where user_id = {tg_id}
     """
 
@@ -30,5 +30,10 @@ def one_product(request, tg_id):
 def _format(data):
     return OrderedDict([
         ('user_id', data['user_id']),
-        ('messages', ast.literal_eval(data['messages'])),
+        ('first_name', data['first_name']),
+        ('last_name', data['last_name']),
+        ('user_name', data['user_name']),
+        ('lang', data['lang']),
+        ('menu_log', data['menu_log']),
+
     ])
