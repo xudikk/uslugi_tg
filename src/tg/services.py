@@ -2,6 +2,7 @@ import requests as re
 
 from src.settings import API_URL
 from tg.models import Log
+import json
 
 
 def create_tg_user(user):
@@ -42,8 +43,9 @@ def create_log(user_id):
 
 def change_log(user_id, log):
     url = API_URL + f"log/{user_id}/"
-    response = re.put(url, data={"messages": log})
-    print("post", response)
+    print("ll", type(log))
+    response = re.put(url, data={"messages": json.dumps(log)})
+    print("change", response)
     return response.json()['item']
 
 

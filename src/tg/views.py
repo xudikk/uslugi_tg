@@ -74,12 +74,23 @@ def received_message(update, context):
 
     if msg == text_translate(Texts['BTN_CREATE_AD'][1]) or msg == text_translate(Texts['BTN_CREATE_AD'][2]):
         tg_model = services.userChangeMenu(user.id, 1)
-
+        try:
+            services.change_log(user.id, {"state": 0})
+        except:
+            pass
     elif msg == text_translate(Texts['BTN_GET_EMP'][1]) or msg == text_translate(Texts['BTN_GET_EMP'][2]):
         tg_model = services.userChangeMenu(user.id, 2)
+        try:
+            services.change_log(user.id, {"state": 0})
+        except:
+            pass
 
     elif msg == text_translate(Texts['BTN_PROFILE'][1]) or msg == text_translate(Texts['BTN_PROFILE'][2]):
         tg_model = services.userChangeMenu(user.id, 3)
+        try:
+            services.change_log(user.id, {"state": 0})
+        except:
+            pass
     else:
         tg_model = services.get_user(user.id)
 
