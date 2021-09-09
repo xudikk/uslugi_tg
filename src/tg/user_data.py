@@ -89,3 +89,31 @@ class UserData:
 
     def answer_callback_query(self, query_id, txt):
         self._bot.answer_callback_query(callback_query_id=query_id, text=txt, show_alert=True)
+
+    def get_list_region(self):
+        region = services.getRegions()
+        return region
+
+    def find_region(self, region_name, region_id=None):
+        region = services.searchRegion(region_name, region_id)
+        return region
+
+    def getDistric(self, region_id):
+        districts = services.Districts(region_id)
+        return districts
+
+    def format_region_buttons(self, lang, regions):
+        keyboards = []
+        for region in regions:
+            keyboards.append([region[f'name_{lang}']])
+
+        keyboards.append([Texts['BTN_SEND_BACK'][lang], Texts['BTN_HOME'][lang]])
+
+        return ReplyKeyboardMarkup(keyboards, resize_keyboard=True, one_time_keyboard=True)
+
+    def get_district(self, name):
+        root = services.district_by_name(name)
+        return root
+
+
+

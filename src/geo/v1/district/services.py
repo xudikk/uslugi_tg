@@ -5,8 +5,8 @@ from collections import OrderedDict
 from django.db import connection
 from django.conf import settings
 
-from yesboss.base.utils.db import dictfetchone, dictfetchall
-from yesboss.base.utils.sqlpaginator import SqlPaginator
+from base.utils.db import dictfetchall, dictfetchone
+from base.utils.sqlpaginator import SqlPaginator
 
 PER_PAGE = settings.PAGINATE_BY
 
@@ -84,17 +84,13 @@ def one_model(request, pk):
 def _format(data):
     return OrderedDict([
         ('id', data['id']),
-        ('name', {
-            "uz": data['name_uz'],
-            'ru': data['name_ru']
-        }),
+        ('name_1', data['name_uz']),
+        ('name_2', data['name_ru']),
         ('sort_order', data['sort_order']),
         ('region', OrderedDict([
                 ('id', data['region_id']),
-                ('name', {
-                    "uz": data['region_name_uz'],
-                    'ru': data['region_name_ru']
-                }),
+                ('name_1', data['region_name_uz']),
+                ('name_2', data['region_name_ru']),
                 ('sort_order', data['region_sort_order'])
             ]))
     ])

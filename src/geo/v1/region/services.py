@@ -72,9 +72,7 @@ def one_region(request, pk):
 def _format(data):
     return OrderedDict([
         ('id', data['id']),
-        ('name', {
-            "uz": data['name_uz'],
-            'ru': data['name_ru']
-        }),
+        ('name_1', data['name_uz']),
+        ('name_2', data['name_ru']),
         ('sort_order', data['sort_order']),
     ])

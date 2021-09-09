@@ -67,3 +67,19 @@ def userChangeMenu(user_id, menu):
     response = re.put(url, data=data)
     print("menu_put", response)
     return response.json()['item']
+
+
+def getRegions():
+    pass
+
+
+def searchRegion(region_name, region_id=None):
+    pass
+
+
+def Districts(region_id):
+    pass
+
+
+def district_by_name(name):
+    pass

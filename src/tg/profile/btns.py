@@ -1,16 +1,21 @@
 from telegram import ReplyMarkup, ReplyKeyboardMarkup, KeyboardButton
 
+from tg.globals import Texts
+
 
 def markup_btns(type=None):
-    print(type)
     if type == "main":
-        print("Mana taypi", type)
         btn = [
             [KeyboardButton("Sozlamalar"), KeyboardButton("Mening e'lonlarim")]
         ]
+    elif type == "settings":
+        btn = [
+            ["Tilni o\'zgartirish"]
+        ]
+    elif type == "s_lang":
+        btn = [
+                [Texts['BTN_LANG'][1]], [Texts['BTN_LANG'][2]]
+        ]
     else:
         btn = []
-
-    print("Buttonlar", btn)
-
-    return ReplyKeyboardMarkup(btn, resize_keyboard=True)
+    return ReplyKeyboardMarkup(btn, one_time_keyboard=True, resize_keyboard=True)
