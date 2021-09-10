@@ -37,6 +37,8 @@ class RegionView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         if 'pk' in kwargs and kwargs['pk']:
             result = services.one_region(request, kwargs['pk'])
+        elif 'name' in kwargs and kwargs['name']:
+            result = services.one_region_by_name(request, kwargs['name'])
         else:
             result = services.list_region(request)
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')

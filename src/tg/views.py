@@ -99,8 +99,9 @@ def received_message(update, context):
         root.received_message(msg, update.message.text)
         return 1
     elif tg_model.get("menu_log") == 2:
+        text = update.message.text
         root = Helper(context.bot, update, tg_model)
-        root.received_message(msg, update.message.text)
+        root.received_message(msg, tg_model['lang'], text)
         return 1
     elif tg_model.get("menu_log") == 3:
         root = Profile(context.bot, update, tg_model)

@@ -22,7 +22,6 @@ def list_region(request):
     select id, name->>'uz' as name_uz, name->>'ru' as name_ru, sort_order  
     from geo_region
     order by sort_order asc
-    limit %s OFFSET %s
 """
     with closing(connection.cursor()) as cursor:
         cursor.execute(extra_sql, [PER_PAGE, offset])
@@ -59,6 +58,25 @@ def one_region(request, pk):
 
     with closing(connection.cursor()) as cursor:
         cursor.execute(extra_sql, [pk])
+        data = dictfetchone(cursor)
+        if data:
+            result = _format(data)
+        else:
+            result = None
+    return OrderedDict([
+        ('item', result),
+    ])
+
+
+def one_region_by_name(request, name):
+    extra_sql = f"""
+    select id, name->>'uz' as name_uz, name->>'ru' as name_ru, sort_order
+    from geo_region
+    where name->>'uz' = %s or name->>'ru' = %s
+    """
+
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(extra_sql, [name, name])
         data = dictfetchone(cursor)
         if data:
             result = _format(data)

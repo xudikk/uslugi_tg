@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tg',
-    'geo'
+    'geo',
 ]
 
 MIDDLEWARE = [
@@ -130,8 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# TOKEN_KEY = config("TOKEN_KEY", "1")
-TOKEN_KEY = "1511848339:AAFejM4Us3bcdyNMNadrC-kHtk_1WzdoLxI"
+TOKEN_KEY = config("TOKEN_KEY", "1")
+# TOKEN_KEY = "1769249243:AAHDyKX-QmuITwSxKqtbqpNtB0sVSu_dzaY"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

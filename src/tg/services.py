@@ -43,9 +43,7 @@ def create_log(user_id):
 
 def change_log(user_id, log):
     url = API_URL + f"log/{user_id}/"
-    print("ll", type(log))
     response = re.put(url, data={"messages": json.dumps(log)})
-    print("change", response)
     return response.json()['item']
 
 
@@ -61,6 +59,7 @@ def tgChangeLang(user_id, lang):
 
 def userChangeMenu(user_id, menu):
     url = API_URL + f"user/{user_id}/"
+    print('url', url)
     data = {
         "menu_log": menu
     }
@@ -70,11 +69,16 @@ def userChangeMenu(user_id, menu):
 
 
 def getRegions():
-    pass
+    url = API_URL+ f"g/regions/"
+    response = re.get(url)
+    response = response.json()['items']
+    return response
 
 
 def searchRegion(region_name, region_id=None):
-    pass
+    url = API_URL + f"g/regions/{region_name}"
+    response = re.get(url)
+    return response.json()['item']
 
 
 def Districts(region_id):
