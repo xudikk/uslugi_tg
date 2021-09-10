@@ -16,10 +16,21 @@ class Helper(UserData):
         reply_murkup = ReplyKeyboardMarkup(buttons, resize_keyboard=True, one_time_keyboard=True)
         if user_state == 0:
             self.change_state({"state": 1})
-            self.go_message(message="Viloyatlardan birini tanlang", user_id=self.user.id, reply_markup=reply_murkup)
+            self.go_message(message=Texts['REGION'][txt], user_id=self.user.id, reply_markup=reply_murkup)
         if user_state == 1:
-            print('data', text)
-            data = services.searchRegion(text)
+            self.change_state({'state':2})
+            services.searchRegion(text)
+            self.go_message(message=Texts['REGION_END'][txt], user_id=self.user.id, reply_markup=None)
+        if user_state == 2:
+            self.change_state({'state':3})
+            data = services.searchCategory(text)
+            if data != None:
+                self.go_message(message=Texts['SUMMA'][txt], user_id=self.user.id, reply_markup=None)
+            else:
+                self.change_state({'state': 2})
+                self.go_message(message=Texts['REGION_END_NONE'][txt], user_id=self.user.id, reply_markup=None)
+        if user_state == 3:
+            pass
 
     def render_buttons(self, txt):
         response = services.getRegions()

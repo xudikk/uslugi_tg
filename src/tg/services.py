@@ -74,6 +74,14 @@ def getRegions():
     response = response.json()['items']
     return response
 
+def searchCategory(category_name):
+    url = API_URL + f"g/category/{category_name}"
+    response = re.get(url)
+    try:
+        response = response.json()['item']
+    except:
+        response = None
+    return response
 
 def searchRegion(region_name, region_id=None):
     url = API_URL + f"g/regions/{region_name}"
