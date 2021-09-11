@@ -8,7 +8,9 @@ urlpatterns = [
     path('regions/<int:pk>/', RegionView.as_view(), name='geo-region-one'),
     path('regions/<name>/', RegionView.as_view(), name='geo-region-one'),
 
-    path('category/<name>/', CategoryView.as_view(), name='category-one'),
+    path('category/', CategoryView.as_view(), name='geo-category-list'),
+    path('category/<slug>/', CategoryView.as_view(), name='category-one'),
+
 
     path('districts/', DistrictView.as_view(), name='geo-district-list'),
     path('districts/<int:pk>/', DistrictView.as_view(), name='geo-district-one'),

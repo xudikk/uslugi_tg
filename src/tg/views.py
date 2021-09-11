@@ -96,7 +96,11 @@ def received_message(update, context):
 
     if tg_model.get("menu_log") == 1:
         root = Announcer(context.bot, update, tg_model)
-        root.received_message(msg, update.message.text)
+        if update.message.text == None:
+            text = update.message.contact.phone_number
+        else:
+            text = update.message.text
+        root.received_message(msg, text)
         return 1
     elif tg_model.get("menu_log") == 2:
         text = update.message.text

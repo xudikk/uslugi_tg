@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from text_unidecode import unidecode
 from django.utils.text import slugify
 

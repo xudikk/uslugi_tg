@@ -69,10 +69,18 @@ def userChangeMenu(user_id, menu):
 
 
 def getRegions():
-    url = API_URL+ f"g/regions/"
+    url = API_URL + f"g/regions/"
     response = re.get(url)
     response = response.json()['items']
     return response
+
+
+def getCategory():
+    url = API_URL + f"g/category/"
+    response = re.get(url)
+    print("respone ctg", response.json)
+    return response.json()['items']
+
 
 def searchCategory(category_name):
     url = API_URL + f"g/category/{category_name}"
@@ -82,6 +90,7 @@ def searchCategory(category_name):
     except:
         response = None
     return response
+
 
 def searchRegion(region_name, region_id=None):
     url = API_URL + f"g/regions/{region_name}"

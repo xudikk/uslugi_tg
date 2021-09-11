@@ -8,6 +8,7 @@ from telegram.utils.request import Request
 
 from src.settings import TOKEN_KEY
 from tg.views import start, received_message
+from tg.announcer.announcer import Announcer
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -23,7 +24,7 @@ class Command(BaseCommand):
         # on different commands - answer in Telegram
         dispatcher.add_handler(CommandHandler("start", start))
         dispatcher.add_handler(MessageHandler(Filters.text, received_message))
-        # dispatcher.add_handler(MessageHandler(Filters.contact, get_contact_value))
+        dispatcher.add_handler(MessageHandler(Filters.contact, received_message))
         # dispatcher.add_handler(CallbackQueryHandler(inline_query))
 
         updater.start_polling()
