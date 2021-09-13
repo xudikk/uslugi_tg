@@ -20,6 +20,24 @@ def create_tg_user(user):
     return response.json()['item']
 
 
+def create_announce(user, user_id):
+    url = API_URL + f"announce/"
+    print("qwe")
+    print(type(user['price']))
+    data = {
+        "category": 1,
+        "fullname": user["fio"],
+        "region": 2,
+        "phone_number": user['contact'],
+        "price": json.dumps(user['price']),
+        "description": user['desc'],
+        "user": user_id,
+    }
+    response = re.post(url, data=data)
+    print("postuser", response.json())
+    return response.json()['item']
+
+
 def get_user(user_id):
     url = API_URL + f"user/{user_id}/"
     response = re.get(url)

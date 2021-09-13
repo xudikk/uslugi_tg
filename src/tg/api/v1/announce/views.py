@@ -24,6 +24,7 @@ class AnnounceView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         root = serializer.save()
+        print("*******************************************",root)
         result = services.one_product(request, root.user_id)
         return Response(result, status=status.HTTP_200_OK)
 

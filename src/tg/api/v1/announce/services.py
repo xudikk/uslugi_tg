@@ -10,7 +10,9 @@ from base.utils.db import dictfetchall, dictfetchone
 
 def one_product(request, id):
     extra_sql = f"""
-    
+        select category, fullname, region, phone_number, description, price, user
+        from tg_announce 
+        where user_id = {id}
     """
 
     with closing(connection.cursor()) as cursor:
@@ -27,11 +29,12 @@ def one_product(request, id):
 
 def _format(data):
     return OrderedDict([
-        ('user_id', data['user_id']),
-        ('first_name', data['first_name']),
-        ('last_name', data['last_name']),
-        ('user_name', data['user_name']),
-        ('lang', data['lang']),
-        ('menu_log', data['menu_log']),
+        ('category', data['category']),
+        ('fullname', data['fullname']),
+        ('region', data['region']),
+        ('phone_number', data['phone_number']),
+        ('description', data['description']),
+        ('price', data['price']),
+        ('user', data['user']),
 
     ])

@@ -52,5 +52,10 @@ Texts = {
     "no": {
         1: "Ma'lumotlariz saqlanmadi",
         2 : "m"
+    },
+
+    "location": {
+        1: "ozingizni joylashgan manzilingizni kiriting",
+        2: "sss"
     }
 }
