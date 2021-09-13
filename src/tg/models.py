@@ -6,6 +6,8 @@ from mptt.fields import TreeForeignKey
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel
 
+from base.fields import default_salary
+from geo.models import Region
 from tg import default_log, lang_dict_field, create_slug
 
 
@@ -19,11 +21,12 @@ class Log(models.Model):
 
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, null=False)
-    user_name = models.CharField(max_length=256,  null=True)
+    user_name = models.CharField(max_length=256, null=True)
     first_name = models.CharField(max_length=256, null=False)
     last_name = models.CharField(max_length=256, null=True)
     lang = models.IntegerField(null=True)
     menu_log = models.IntegerField(null=True)
+
 
 # class Languages(models.Model):
 #     name = JSONField(blank=False, null=False, default=lang_dict_field())
@@ -58,3 +61,16 @@ class Category(MPTTModel):
         self.slug = create_slug(self)
         return super().save(*args, **kwargs)
 
+
+class Announce(models.Model):
+    category = models.ManyToManyField(Category, related_name='announce_category')
+    fullname = models.CharField(max_length=50, null=True, blank=True)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=30, null=True, blank=True)
+    price = models.JSONField(null=True, blank=True, default=default_salary())
+    description = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+
+    def str(self):
+        return self.fullname

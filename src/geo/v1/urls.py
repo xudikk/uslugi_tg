@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .region.views import RegionView, CategoryView
+from tg.api.v1.category.views import CategoryView
+from .region.views import RegionView
 from .district.views import DistrictView
 
 urlpatterns = [
@@ -8,7 +9,7 @@ urlpatterns = [
     path('regions/<int:pk>/', RegionView.as_view(), name='geo-region-one'),
     path('regions/<name>/', RegionView.as_view(), name='geo-region-one'),
 
-    path('category/', CategoryView.as_view(), name='geo-category-list'),
+    path('category/', CategoryView.as_view(), name='category-list'),
     path('category/<slug>/', CategoryView.as_view(), name='category-one'),
 
 
