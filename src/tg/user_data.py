@@ -116,4 +116,30 @@ class UserData:
         return root
 
 
+    def getListCategory(self):
+        category = services.getParentCategories()
+        return category
+
+    def findCategory(self, category_name, parent_id=None):
+        category = services.searchCategory(category_name, parent_id)
+        return category
+
+    def getCategoryChilds(self, parent_id, cats):
+        childs = services.getCategoryChild(parent_id, cats)
+        return childs
+
+    def formatCategoryButtons(self, lang, categories, is_parent=True, btn_back=True):
+        keyboards = []
+        for category in categories:
+            keyboards.append([category[f'name_{lang}']])
+
+        if is_parent:
+            if btn_back:
+                keyboards.append([Texts['BTN_SEND_BACK'][lang]])
+        else:
+            keyboards.append([Texts['BTN_SEND_BACK'][lang], Texts['BTN_SEND_DALE'][lang]])
+        keyboards.append([Texts['BTN_HOME'][lang]])
+
+        return ReplyKeyboardMarkup(keyboards, resize_keyboard=True, one_time_keyboard=True)
+
 

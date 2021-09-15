@@ -4,28 +4,26 @@ from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView
 from rest_framework.exceptions import NotFound
 
-from tg.models import Announce
+from tg.models import AnnounceCategories
 from . import services
-from .serializers import AnnounceSerializer
+from .serializers import AnnounceCtgSerializer
 
 
 class AnnounceView(GenericAPIView):
     permission_classes = (AllowAny,)
-    serializer_class = AnnounceSerializer
+    serializer_class = AnnounceCtgSerializer
 
     def get_object(self, *args, **kwargs):
         try:
-            product = Announce.objects.get(user_id=kwargs['id'])
+            product = AnnounceCategories.objects.get(user_id=kwargs['id'])
         except Exception as e:
             raise NotFound('not found product')
         return product
 
     def post(self, request, *args, **kwargs):
-        data = request.data
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         root = serializer.save()
-        print("*******************************************",root)
         result = services.one_product(request, root.user_id)
         return Response(result, status=status.HTTP_200_OK)
 
@@ -39,7 +37,13 @@ class AnnounceView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         if 'user_id' in kwargs and kwargs['user_id']:
-            result = services.one_product(request, tg_id=kwargs['user_id'])
+            result = services.one_product(request, id=kwargs['user_id'])
         else:
             result = {"item": None}
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')
+
+
+    def delete(self, request, pk, format=None):
+        snippet = self.get_object(pk)
+        snippet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

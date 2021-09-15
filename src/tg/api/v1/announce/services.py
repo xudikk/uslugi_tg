@@ -10,7 +10,7 @@ from base.utils.db import dictfetchall, dictfetchone
 
 def one_product(request, id):
     extra_sql = f"""
-        select category, fullname, region, phone_number, description, price, user
+        select fullname, region, phone_number, description, price, user
         from tg_announce 
         where user_id = {id}
     """

@@ -63,7 +63,6 @@ class Category(MPTTModel):
 
 
 class Announce(models.Model):
-    category = models.ManyToManyField(Category, related_name='announce_category')
     fullname = models.CharField(max_length=50, null=True, blank=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=30, null=True, blank=True)
@@ -74,3 +73,21 @@ class Announce(models.Model):
 
     def str(self):
         return self.fullname
+
+
+class AnnounceCategories(models.Model):
+    resume = models.ForeignKey(
+        Announce,
+        related_name="announce_categories_m",
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+    )
+
+    category = models.ForeignKey(
+        Category,
+        related_name="announce_categories",
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+    )
