@@ -83,6 +83,7 @@ def _get_all_category(page, filter_query):
 
 def get_one_category(request, slug):
     category = _format_one(_get_one_category(slug))
+
     if category:
         child_items = []
         childs = _get_category_childs(slug)
@@ -96,14 +97,14 @@ def get_one_category(request, slug):
     return result
 
 
-def _get_one_category(slug):
+def _get_one_category(name):
     extra_sql = """select id, name->>'uz' as name_uz, name->>'ru' as name_ru, slug, parent_id as parent_id, sort_order,
-    is_main, is_active
-    from tg_category
-    where id=%s and is_active is true
+            is_main, is_active
+            from tg_category
+            where name->>'uz' = %s  and is_active is true
             """
     with closing(connection.cursor()) as cursor:
-        cursor.execute(extra_sql, [slug])
+        cursor.execute(extra_sql, [name])
         rows = dictfetchone(cursor)
     return rows
 
@@ -117,7 +118,6 @@ def ctg_by_name(name, parent_id=None):
         sql = """select id, parent_id, name->>'uz' as name_1, name->>'ru' as name_2 
         from tg_category 
         where (name->>'uz' = %s or name->>'ru' = %s) {parent}""".format(parent=parent)
-        print(name)
         cursor.execute(sql, [name, name])
         category = dictfetchone(cursor)
         category = _format_one(_get_one_category(category.get("id", 0)))
@@ -135,12 +135,11 @@ def ctg_by_name(name, parent_id=None):
 
 
 def _get_category_childs(parent_id):
-    extra_sql = """select id, name->>'uz' as name_uz, name->>'ru' as name_ru, slug, parent_id as parent_id, sort_order,
-    is_main, is_active
-        FROM tg_category
-        WHERE parent_id=%s and is_active is true
-        ORDER BY lft
-        LIMIT 30
+    extra_sql = """select id, name->>'uz' as name_uz, name->>'ru' as name_ru, slug, parent_id as parent_id, sort_order,is_main, is_active
+FROM tg_category
+where parent_id is null and is_active is true
+ORDER BY lft
+LIMIT 30
         """
     with closing(connection.cursor()) as cursor:
         cursor.execute(extra_sql, [parent_id])

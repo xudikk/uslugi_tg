@@ -8,11 +8,11 @@ from django.db import connection
 from base.utils.db import dictfetchall, dictfetchone
 
 
-def one_product(request, tg_id):
+def one_product(request, id):
     extra_sql = f"""
-        select id, fullname, region_id, phone_number, description, price, user
-        from tg_announce 
-        where user_id = {tg_id}
+        select resume_id, category_id
+        from tg_announcecategories 
+        where resume_id = {id}
     """
 
     with closing(connection.cursor()) as cursor:
@@ -29,12 +29,6 @@ def one_product(request, tg_id):
 
 def _format(data):
     return OrderedDict([
-        ('id', data['id']),
-        ('fullname', data['fullname']),
-        ('region_id', data['region_id']),
-        ('phone_number', data['phone_number']),
-        ('description', data['description']),
-        ('price', data['price']),
-        ('user', data['user']),
-
+        ('resume', data['resume_id']),
+        ('category', data['category_id']),
     ])

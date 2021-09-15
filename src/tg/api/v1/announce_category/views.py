@@ -9,7 +9,7 @@ from . import services
 from .serializers import AnnounceCtgSerializer
 
 
-class AnnounceView(GenericAPIView):
+class AnnounceCatView(GenericAPIView):
     permission_classes = (AllowAny,)
     serializer_class = AnnounceCtgSerializer
 
@@ -24,7 +24,7 @@ class AnnounceView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         root = serializer.save()
-        result = services.one_product(request, root.user_id)
+        result = services.one_product(request, root.resume_id)
         return Response(result, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):

@@ -49,6 +49,7 @@ class CategoryView(GenericAPIView):
         if 'slug' in kwargs and kwargs['slug']:
             try:
                 result = services.get_one_category(request, kwargs['slug'])
+                print(kwargs['slug'])
             except:
                 result = {"result": "category was deleted"}
         else:

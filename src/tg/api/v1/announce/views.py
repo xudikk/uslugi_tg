@@ -22,11 +22,13 @@ class AnnounceView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         root = serializer.save()
         print("*******************************************",root)
         result = services.one_product(request, root.user_id)
+        print(result)
         return Response(result, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):

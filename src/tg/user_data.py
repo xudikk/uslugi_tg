@@ -115,18 +115,18 @@ class UserData:
         root = services.district_by_name(name)
         return root
 
-
-    def getListCategory(self):
-        category = services.getParentCategories()
-        return category
-
-    def findCategory(self, category_name, parent_id=None):
-        category = services.searchCategory(category_name, parent_id)
-        return category
-
-    def getCategoryChilds(self, parent_id, cats):
-        childs = services.getCategoryChild(parent_id, cats)
-        return childs
+    #
+    # def getListCategory(self):
+    #     category = services.getParentCategories()
+    #     return category
+    #
+    # def findCategory(self, category_name, parent_id=None):
+    #     category = services.searchCategory(category_name, parent_id)
+    #     return category
+    #
+    # def getCategoryChilds(self, parent_id, cats):
+    #     childs = services.getCategoryChild(parent_id, cats)
+    #     return childs
 
     def formatCategoryButtons(self, lang, categories, is_parent=True, btn_back=True):
         keyboards = []

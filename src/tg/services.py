@@ -22,21 +22,35 @@ def create_tg_user(user):
 
 def create_announce(user, user_id):
     url = API_URL + f"announce/"
-    print("qwe")
-    print(type(user['price']))
+
     data = {
-        "category": 1,
         "fullname": user["fio"],
         "region": 2,
         "phone_number": user['contact'],
         "price": json.dumps(user['price']),
         "description": user['desc'],
         "user": user_id,
+        "is_active": True
     }
     response = re.post(url, data=data)
-    print("postuser", response.json())
     return response.json()['item']
 
+
+def create_cat_announce(get_an, user):
+    url = API_URL + f"announce_cat/"
+    data = {
+        "resume": get_an['id'],
+        "category": user['cat_id']
+    }
+    response = re.post(url, data=data)
+    return response.json()['item']
+
+
+def search_announcer(user_id):
+    url = API_URL + f"announce/{user_id}/"
+    response = re.get(url)
+    print("getu", response)
+    return response.json()['item']
 
 def get_user(user_id):
     url = API_URL + f"user/{user_id}/"
@@ -96,18 +110,20 @@ def getRegions():
 def getCategory():
     url = API_URL + f"g/category/"
     response = re.get(url)
-    print("respone ctg", response.json)
     return response.json()['items']
 
 
-def searchCategory(category_name):
-    url = API_URL + f"g/category/{category_name}"
-    response = re.get(url)
-    try:
-        response = response.json()['item']
-    except:
-        response = None
-    return response
+def searchCategory(category_name, parent_id=None):
+    if parent_id:
+        pass
+    else:
+        url = API_URL + f"g/category/{category_name}"
+        response = re.get(url)
+        try:
+            response = response.json()['item']
+        except:
+            response = None
+        return response
 
 
 def searchRegion(region_name, region_id=None):
