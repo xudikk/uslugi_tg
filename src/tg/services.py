@@ -22,10 +22,9 @@ def create_tg_user(user):
 
 def create_announce(user, user_id):
     url = API_URL + f"announce/"
-
     data = {
         "fullname": user["fio"],
-        "region": 2,
+        "region": user["reg_id"],
         "phone_number": user['contact'],
         "price": json.dumps(user['price']),
         "description": user['desc'],
@@ -36,18 +35,18 @@ def create_announce(user, user_id):
     return response.json()['item']
 
 
-def create_cat_announce(get_an, user):
+def create_cat_announce(an, user):
     url = API_URL + f"announce_cat/"
     data = {
-        "resume": get_an['id'],
+        "resume": an['id'],
         "category": user['cat_id']
     }
     response = re.post(url, data=data)
     return response.json()['item']
 
 
-def search_announcer(user_id):
-    url = API_URL + f"announce/{user_id}/"
+def search_announcer(id):
+    url = API_URL + f"announce/{id}/"
     response = re.get(url)
     print("getu", response)
     return response.json()['item']

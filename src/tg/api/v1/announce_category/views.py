@@ -36,8 +36,8 @@ class AnnounceCatView(GenericAPIView):
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')
 
     def get(self, request, *args, **kwargs):
-        if 'user_id' in kwargs and kwargs['user_id']:
-            result = services.one_product(request, id=kwargs['user_id'])
+        if 'id' in kwargs and kwargs['id']:
+            result = services.one_product(request, id=kwargs['id'])
         else:
             result = {"item": None}
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')

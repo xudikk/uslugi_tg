@@ -30,12 +30,12 @@ Texts = {
     },
 
     "price": {
-        1: "Ishlamoqchi bo'lgan summani kiriting💰\n Namuna(200000sum-300000sum)",
+        1: "Ishlamoqchi bo'lgan pul miqdorini kiriting💰\niltimos sumda kiriting\nNamuna(200000sum-300000sum)",
         2: "Введите сумму, на которую хотите работать"
     },
 
     "description": {
-        1: "O'zingiz va ishimgiz haqida qisqacha ma'lumot yozing🛠",
+        1: "O'zingiz va ishingiz haqida qisqacha ma'lumot yozing🛠",
         2: "Напишите открытку о себе"
     },
 

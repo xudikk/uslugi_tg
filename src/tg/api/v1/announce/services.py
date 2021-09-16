@@ -8,11 +8,11 @@ from django.db import connection
 from base.utils.db import dictfetchall, dictfetchone
 
 
-def one_product(request, tg_id):
+def one_product(request, id):
     extra_sql = f"""
-        select id, fullname, region_id, phone_number, description, price, user
+        select id, fullname, region_id, phone_number, description, price, user_id
         from tg_announce 
-        where user_id = {tg_id}
+        where id = {id}
     """
 
     with closing(connection.cursor()) as cursor:
@@ -35,6 +35,6 @@ def _format(data):
         ('phone_number', data['phone_number']),
         ('description', data['description']),
         ('price', data['price']),
-        ('user', data['user']),
+        ('user', data['user_id']),
 
     ])

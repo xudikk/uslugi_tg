@@ -26,8 +26,7 @@ class AnnounceView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         root = serializer.save()
-        print("*******************************************",root)
-        result = services.one_product(request, root.user_id)
+        result = services.one_product(request, root.id)
         print(result)
         return Response(result, status=status.HTTP_200_OK)
 
@@ -36,12 +35,13 @@ class AnnounceView(GenericAPIView):
         serializer = self.get_serializer(data=request.data, instance=root, partial=True)
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
-        result = services.one_product(request, data.user_id)
+        print("data8787878787878", data)
+        result = services.one_product(request, data.id)
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')
 
     def get(self, request, *args, **kwargs):
-        if 'user_id' in kwargs and kwargs['user_id']:
-            result = services.one_product(request, tg_id=kwargs['user_id'])
+        if 'id' in kwargs and kwargs['id']:
+            result = services.one_product(request, id=kwargs['id'])
         else:
             result = {"item": None}
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')

@@ -39,7 +39,7 @@ class Announcer(UserData):
             if "-" in txt:
                 txt = txt.split("-")
                 json = {"from": txt[0], "to":txt[1]}
-                self.change_state({"state": 4, "price": json})
+                self.change_state({"state": 4, "price": json, "price_t": txt})
                 self.go_message(message=self.send_trans("category"), user_id=self.user.id,  reply_markup=reply_markup(type=f"cat_{lang}"))
             else:
                 self.go_message(message=self.send_trans("price"), user_id=self.user.id, reply_markup=None)
@@ -59,7 +59,8 @@ class Announcer(UserData):
                 self.change_state({"state": 3})
                 self.go_message(message=self.send_trans("price"), user_id=self.user.id, reply_markup=None)
             else:
-                self.change_state({"state": 6, "region": txt})
+                reg = services.searchRegion(txt)
+                self.change_state({"state": 6, "region": txt, "reg_id": reg["id"]})
                 self.go_message(message=self.send_trans("FIO"), user_id=self.user.id, reply_markup=None)
         if user_state == 6:
             self.change_state({"state": 7, "fio": txt})
@@ -74,12 +75,8 @@ class Announcer(UserData):
                 self.change_state({"state": 9})
                 user_id = self.user.id
                 user = self.user_data
-                print(user)
                 an = services.create_announce(user, user_id)
-                print(" sdsdsdsds*****", an)
-                get_an = services.search_announcer(user_id)
-                services.create_cat_announce(get_an, user)
-
+                services.create_cat_announce(an, user)
                 self.go_message(message=self.send_trans("last"), user_id=self.user.id, reply_markup=reply_markup(type=f"footer_{lang}"))
             else:
                 self.clear_state()
@@ -110,7 +107,7 @@ class Announcer(UserData):
 🌐 Hudud: {user.get("region")}
 👷 Ish turi: {user.get("category")}
 📞 Contact: {user.get("contact")}
-💰 Narxi: {user.get("price")}
+💰 Narxi: {user.get("price_t")}
 🔎 Ish xaqida: {user.get("desc")}
         """
         self.go_message(message=result, user_id=self.user.id)

@@ -10,7 +10,7 @@ urlpatterns = [
     path('user/<int:user_id>/', UserView.as_view(), name='tg_user'),
     path('user/', UserView.as_view(), name='tg_user'),
     path('announce/', AnnounceView.as_view(), name='tg_announce'),
-    path('announce/<int:user_id>/', AnnounceView.as_view(), name='tg_announce'),
+    path('announce/<int:id>/', AnnounceView.as_view(), name='tg_announce'),
     path('announce_cat/', AnnounceCatView.as_view(), name='tg_cat_announce'),
 
 ]
