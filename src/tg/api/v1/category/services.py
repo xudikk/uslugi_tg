@@ -98,12 +98,14 @@ def get_one_category(request, slug):
 
 
 def _get_one_category(name):
-    extra_sql = """select id, name->>'uz' as name_uz, name->>'ru' as name_ru, slug, parent_id as parent_id, sort_order, is_main, is_active
-                from tg_category
-                where (name->>'uz' = 'Элект' or name->>'ru' = 'Элект')  and is_active is true
-            """
+    extra_sql = """
+    select id, name->>'uz' as name_uz, name->>'ru' as name_ru, slug, parent_id as parent_id, sort_order,
+    is_main, is_active
+    from tg_category
+    where (name->>'uz' = %s or name->>'ru' = %s)  and is_active is true
+    """
     with closing(connection.cursor()) as cursor:
-        cursor.execute(extra_sql, [name])
+        cursor.execute(extra_sql, [name, name])
         rows = dictfetchone(cursor)
     return rows
 
@@ -114,6 +116,7 @@ def ctg_by_name(name, parent_id=None):
     else:
         parent = 'and parent_id is null'
     with closing(connection.cursor()) as cursor:
+        print("parent", parent)
         sql = """select id, parent_id, name->>'uz' as name_1, name->>'ru' as name_2 
         from tg_category 
         where (name->>'uz' = %s or name->>'ru' = %s) {parent}""".format(parent=parent)

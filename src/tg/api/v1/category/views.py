@@ -17,7 +17,6 @@ class CategoryView(GenericAPIView):
     def get_object(self, *args, **kwargs):
         try:
             product = Category.objects.get(slug=kwargs['slug'])
-            print("product", product)
         except Exception as e:
             raise NotFound('not found Experience')
         return product
@@ -47,9 +46,9 @@ class CategoryView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         if 'slug' in kwargs and kwargs['slug']:
+            print("qertyu")
             try:
                 result = services.get_one_category(request, kwargs['slug'])
-                print(kwargs['slug'])
             except:
                 result = {"result": "category was deleted"}
         else:
@@ -57,6 +56,7 @@ class CategoryView(GenericAPIView):
                 result = ctg_by_name(name=request.query_params.get("name"), parent_id=request.query_params.get("parent_id", None))
             else:
                 result = services.get_list_category(request)
+        print(result)
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')
 
     def delete(self, request, *args, **kwargs):

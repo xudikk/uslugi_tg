@@ -130,6 +130,11 @@ def searchRegion(region_name, region_id=None):
     response = re.get(url)
     return response.json()['item']
 
+def searchAnnounceMoney(summa):
+    url = API_URL + f"announse/data/{summa}"
+    response = re.get(url)
+    print('qaniku', response)
+    return response.json()['items']
 
 def Districts(region_id):
     pass

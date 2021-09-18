@@ -37,6 +37,14 @@ Texts = {
     'REGION_END_NONE':{
         1:'Bunday ish sohasi bizda mavjud emas. Qaytadan kiriting 👇',
         2:'У нас нет такого поля работы. Входят снова 👇'
+    },
+    'SUMMA_ERROR':{
+        1:"Siz summani xato kiritdingiz. Summani namunadagidek kiriting. Namuna: 500000-600000",
+        2:"Вы неправильно ввели сумму. Введите сумму, как показано в примере. Пример: 500000-600000",
+    },
+    'SUMMA_NONE':{
+        1:"Bunday summa orasida bizda ishchilar yoq.Bundan kamroq summa yokim ko'proq summa kiriting 👇",
+        2:"У нас нет рабочих среди таких сумм. Введите меньшую или большую сумму 👇",
     }
 
 }

@@ -11,6 +11,9 @@ urlpatterns = [
     path('user/', UserView.as_view(), name='tg_user'),
     path('announce/', AnnounceView.as_view(), name='tg_announce'),
     path('announce/<int:id>/', AnnounceView.as_view(), name='tg_announce'),
+
+    path('announse/data/<name>', AnnounceView.as_view(), name='dict-announce'),
+
     path('announce_cat/', AnnounceCatView.as_view(), name='tg_cat_announce'),
 
 ]

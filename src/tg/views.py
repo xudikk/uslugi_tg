@@ -52,14 +52,22 @@ def start(update, context):
 
 
 def received_message(update, context):
-    if not update.message:
+    if not (update.message or update.callback_query):
         return start(update, context)
     try:
-        msg = update.message.text.encode("utf-8")
+        if update.callback_query:
+            msg = update.callback_query.data.encode("utf-8")
+        else:
+            msg = update.message.text.encode("utf-8")
     except:
-        msg = update.message.text
-    print(msg)
-    user = update.message.from_user
+        if update.callback_query:
+            msg = update.callback_query.data
+        else:
+            msg = update.message.text
+    if not update.callback_query:
+        user = update.message.from_user
+    else:
+        user = update.callback_query.from_user
     if msg == text_translate(Texts['BTN_LANG'][1]):
         print("A.2")
         services.tgChangeLang(user.id, 1)
@@ -107,9 +115,15 @@ def received_message(update, context):
         root.received_message(msg, text)
         return 1
     elif tg_model.get("menu_log") == 2:
-        text = update.message.text
+        chat_id = None
+        if not update.callback_query:
+            chat_id = update.message.message_id
+            text = update.message.text
+        else:
+            chat_id = update.callback_query.message.message_id
+            text = update.callback_query.data
         root = Helper(context.bot, update, tg_model)
-        root.received_message(msg, tg_model['lang'], text)
+        root.received_message(msg, tg_model['lang'], text, chat_id)
         return 1
     elif tg_model.get("menu_log") == 3:
         root = Profile(context.bot, update, tg_model)

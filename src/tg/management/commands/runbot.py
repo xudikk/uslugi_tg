@@ -26,7 +26,7 @@ class Command(BaseCommand):
         dispatcher.add_handler(MessageHandler(Filters.text, received_message))
         dispatcher.add_handler(MessageHandler(Filters.contact, received_message))
         dispatcher.add_handler(MessageHandler(Filters.location, received_message))
-        # dispatcher.add_handler(CallbackQueryHandler(inline_query))
+        dispatcher.add_handler(CallbackQueryHandler(received_message))
 
         updater.start_polling()
         updater.idle()
