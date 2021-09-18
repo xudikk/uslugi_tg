@@ -31,29 +31,34 @@ class Announcer(UserData):
                 category_name = txt
                 cat = services.searchCategory(category_name)
                 self.change_state({"state": 2, "category": category_name, "cat_id": cat['id']})
-                self.go_message(message=self.send_trans("description"), user_id=self.user.id, reply_markup=remove_button())
+                self.go_message(message=self.send_trans("description"), user_id=self.user.id, reply_markup=reply_markup(type="menu"))
         if user_state == 2:
-            self.change_state({"state": 3, "desc": txt})
-            self.go_message(message=self.send_trans("price"), user_id=self.user.id, reply_markup=None)
-        if user_state == 3:
-            if "-" in txt:
-                txt = txt.split("-")
-                json = {"from": txt[0], "to":txt[1]}
-                self.change_state({"state": 4, "price": json, "price_t": txt})
-                self.go_message(message=self.send_trans("category"), user_id=self.user.id,  reply_markup=reply_markup(type=f"cat_{lang}"))
+            if txt == "🔝Bosh menyu":
+                self.go_message(message=globals['TEXT_HOME'][lang], user_id=self.user.id, reply_markup=ReplyKeyboardMarkup([
+                                    [globals['BTN_CREATE_AD'][lang], globals['BTN_GET_EMP'][lang]],
+                                    [globals['BTN_PROFILE'][lang]]], one_time_keyboard=True, resize_keyboard=True))
+            elif txt == "🔙 Ortga":
+                self.change_state({"state": 1})
+                self.go_message(message=self.send_trans("work"), user_id=self.user.id, reply_markup=reply_markup(type=f"work_{lang}"))
             else:
-                self.go_message(message=self.send_trans("price"), user_id=self.user.id, reply_markup=None)
+                self.change_state({"state": 4, "desc": txt})
+                self.go_message(message=self.send_trans("price"), user_id=self.user.id, reply_markup=reply_markup(type="menu"))
         if user_state == 4:
-            if txt == "viloyat":
-                self.change_state({"state": 5})
+            if txt == "🔝Bosh menyu":
+                self.go_message(message=globals['TEXT_HOME'][lang], user_id=self.user.id, reply_markup=ReplyKeyboardMarkup([
+                                    [globals['BTN_CREATE_AD'][lang], globals['BTN_GET_EMP'][lang]],
+                                    [globals['BTN_PROFILE'][lang]]], one_time_keyboard=True, resize_keyboard=True))
+            elif txt == "🔙 Ortga":
+                self.change_state({"state": 2})
+                self.go_message(message=self.send_trans("description"), user_id=self.user.id, reply_markup=reply_markup(type="menu"))
+            elif "-" in txt:
+                self.change_state({"price_t": txt})
+                txt = txt.split("-")
+                json = {"from": txt[0], "to": txt[1]}
+                self.change_state({"state": 5, "price": json})
                 self.go_message(message=self.send_trans("region"), user_id=self.user.id, reply_markup=reply_markup(type=f"region_{lang}"))
             else:
-                self.change_state({"state": 5})
-                location_keyboard = KeyboardButton(text="send location", request_location=True)
-                self.go_message(message=self.send_trans("location"), user_id=self.user.id, reply_markup=ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True))
-        if user_state == 10:
-            print(txt)
-            print(self.user_data)
+                self.go_message(message=self.send_trans("price"), user_id=self.user.id, reply_markup=reply_markup(type="menu"))
         if user_state == 5:
             if txt == "◀️ ortga":
                 self.change_state({"state": 3})
@@ -99,7 +104,6 @@ class Announcer(UserData):
 
     def inline_query(self, msg, txt):
         pass
-
 
     def formation(self):
         user = self.user_data

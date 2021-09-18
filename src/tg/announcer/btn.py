@@ -44,6 +44,8 @@ def reply_markup(type=None):
         btn = ReplyKeyboardMarkup([['◀️Ortga']], resize_keyboard=True)
     elif type[0] == "info":
         btn = ReplyKeyboardMarkup([["✅ Xa", "❌ Yo'q"]], resize_keyboard=True)
+    elif type[0] == "menu":
+        btn = ReplyKeyboardMarkup([["🔝Bosh menyu", "🔙 Ortga"]], resize_keyboard=True)
     else:
         btn = []
     return btn

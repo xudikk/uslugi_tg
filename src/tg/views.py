@@ -8,7 +8,8 @@ from tg.announcer.announcer import Announcer
 from tg.globals import Texts
 from tg.helper.helper import Helper
 from tg.profile.profile import Profile
-
+from telegram_bot_pagination import InlineKeyboardPaginator
+from tg.data import  character_pages
 
 def text_translate(message):
     try:
