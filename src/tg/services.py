@@ -44,6 +44,12 @@ def create_cat_announce(an, user):
     response = re.post(url, data=data)
     return response.json()['item']
 
+def delete_announce(announce_id):
+    url = API_URL + f"del_announce/{announce_id}"
+    responce = re.delete(url)
+
+    return responce
+
 
 def search_announcer(id):
     url = API_URL + f"announce/{id}/"
@@ -70,6 +76,11 @@ def create_log(user_id):
     response = re.post(url, data={"user_id": user_id})
     print("post", response)
     return response.json()['item']
+
+def get_user_announce(user_id, page=1):
+    url = API_URL + f"announce/{user_id}?page={page}"
+    response = re.get(url)
+    return response.json()
 
 
 def change_log(user_id, log):

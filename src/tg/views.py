@@ -2,14 +2,13 @@ from django.shortcuts import render
 
 # Create your views here.
 from telegram import ReplyKeyboardMarkup
-
 from tg import services
 from tg.announcer.announcer import Announcer
 from tg.globals import Texts
 from tg.helper.helper import Helper
 from tg.profile.profile import Profile
-from telegram_bot_pagination import InlineKeyboardPaginator
-from tg.data import  character_pages
+from tg.profile.txt import TEXTS
+
 
 def text_translate(message):
     try:
@@ -40,10 +39,7 @@ def start(update, context):
     user = update.message.from_user
     tg_model = services.get_user(user.id)
     if not tg_model:
-        print("aa")
         tg_model = services.create_tg_user(user)
-        print("bb")
-    print(tg_model)
     if not tg_model.get('lang'):
         sendLangMessage(context, user.id)
         return 1
@@ -69,17 +65,16 @@ def received_message(update, context):
     else:
         user = update.callback_query.from_user
     if msg == text_translate(Texts['BTN_LANG'][1]):
-        print("A.2")
         services.tgChangeLang(user.id, 1)
         tg_model = services.get_user(user.id)
         sendMainMenu(context, user.id, tg_model['lang'])
         return 1
     elif msg == text_translate(Texts['BTN_LANG'][2]):
-        print("A.3")
         services.tgChangeLang(user.id, 2)
         tg_model = services.get_user(user.id)
         sendMainMenu(context, user.id, tg_model['lang'])
         return 1
+
 
     if msg == text_translate(Texts['BTN_CREATE_AD'][1]) or msg == text_translate(Texts['BTN_CREATE_AD'][2]):
         tg_model = services.userChangeMenu(user.id, 1)
@@ -127,7 +122,11 @@ def received_message(update, context):
         return 1
     elif tg_model.get("menu_log") == 3:
         root = Profile(context.bot, update, tg_model)
-        root.received_message(msg, update.message.text)
+        text = update.message.text
+        if text == TEXTS["menu_profile"]["BTN_TOP"][1] or text == TEXTS["menu_profile"]["BTN_TOP"][2]:
+            sendMainMenu(context, user.id, tg_model['lang'])
+        else:
+            root.received_message(msg, text)
         return 1
     else:
         sendMainMenu(context, user.id, tg_model['lang'])
@@ -138,4 +137,12 @@ def get_contact_value(update, context):
 
 
 def inline_query(update, context):
-    pass
+    tg_model = services.get_user(update.callback_query.from_user.id)
+    message_id = update.callback_query.message.message_id
+
+    if tg_model.get("menu_log") == 3:
+        root = Profile(context.bot, update, tg_model)
+        callback_data = update.callback_query.data
+        print("tg_model", tg_model)
+        root.inline_query(callback_data, message_id)
+

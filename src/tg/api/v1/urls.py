@@ -15,5 +15,7 @@ urlpatterns = [
     path('announse/data/<name>', AnnounceView.as_view(), name='dict-announce'),
 
     path('announce_cat/', AnnounceCatView.as_view(), name='tg_cat_announce'),
+    path('announce/<int:user_id>/', AnnounceView.as_view(), name='user_announce'),
+    path('del_announce/<int:id>/', AnnounceView.as_view(), name='delete_announce')
 
 ]

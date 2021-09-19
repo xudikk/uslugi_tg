@@ -48,27 +48,55 @@ def all_announse(request, form, to, region_id):
     ])
 
 def one_product(request, id):
+
+    try:
+        page =int(request.GET.get('page', 1))
+    except:
+        page = 1
+
+    offset = (page - 1) * PER_PAGE
+
     extra_sql = f"""
-    select fullname , phone_number , price->>'from' as price_from, price->>'to' as price_to, description, is_active, region_id, user_id
-    from tg_announce ta 
-    where id = %s
+        select ann.id, fullname, phone_number, coalesce(price->>'from', '') || '-' ||coalesce(price->>'to', '') as price, description, geo."name"->>'uz' as region_name_uz, geo."name"->>'ru' as region_name_ru, cat."name"->>'uz' as category_name_uz, cat."name"->>'ru' as category_name_ru
+    from tg_announce ann
+    inner join geo_region geo on ann.region_id = geo.id
+    inner join tg_announcecategories acat on ann.id = acat.resume_id 
+    inner join tg_category cat on acat.category_id = cat.id 
+    where ann.user_id = %s and ann.is_active = True
+    limit %s offset %s
     """
 
     with closing(connection.cursor()) as cursor:
-        cursor.execute(extra_sql, [id])
+        cursor.execute(extra_sql, [id, PER_PAGE, offset])
         data = dictfetchone(cursor)
         if data:
             result = _format(data)
         else:
             result = None
+
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(
+            "select count(1) as cnt from tg_announce ta  where ta.user_id = %s and ta.is_active = True", [id]
+        )
+        row = dictfetchone(cursor)
+
+    if row:
+        count_records = row['cnt']
+    else:
+        count_records = 0
+
+    paginator = SqlPaginator(request, page=page, per_page=PER_PAGE, count=count_records)
+    pagging = paginator.get_paginated_response()
     return OrderedDict([
         ('item', result),
+        ('meta', pagging)
     ])
 
 
 
 def _format_(data):
     return OrderedDict([
+        ('id', data['id']),
         ('fullname', data['fullname']),
         ('phone_number', data['phone_number']),
         ('price_from', data['price_from']),
@@ -89,8 +117,10 @@ def _format(data):
         ('price_from', data['price_from']),
         ('price_to', data['price_to']),
         ('description', data['description']),
-        ('is_active', data['is_active']),
-        ('region_id', data['region_id']),
-        ('user_id', data['user_id']),
+        ('price', data['price']),
+        ('region_uz', data['region_name_uz']),
+        ('region_ru', data['region_name_ru']),
+        ('category_uz', data['category_name_uz']),
+        ('category_ru', data['category_name_ru'])
 
     ])

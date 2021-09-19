@@ -7,8 +7,9 @@ from telegram.ext import (
 from telegram.utils.request import Request
 
 from src.settings import TOKEN_KEY
-from tg.views import start, received_message
+from tg.views import start, received_message, inline_query
 from tg.announcer.announcer import Announcer
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -26,7 +27,7 @@ class Command(BaseCommand):
         dispatcher.add_handler(MessageHandler(Filters.text, received_message))
         dispatcher.add_handler(MessageHandler(Filters.contact, received_message))
         dispatcher.add_handler(MessageHandler(Filters.location, received_message))
-        dispatcher.add_handler(CallbackQueryHandler(received_message))
+        dispatcher.add_handler(CallbackQueryHandler(inline_query))
 
         updater.start_polling()
         updater.idle()

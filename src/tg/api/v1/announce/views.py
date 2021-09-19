@@ -15,7 +15,7 @@ class AnnounceView(GenericAPIView):
 
     def get_object(self, *args, **kwargs):
         try:
-            product = Announce.objects.get(user_id=kwargs['id'])
+            product = Announce.objects.get(id=kwargs['id'])
         except Exception as e:
             raise NotFound('not found product')
         return product
@@ -45,3 +45,10 @@ class AnnounceView(GenericAPIView):
         else:
             result = {"item": None}
         return Response(result, status=status.HTTP_200_OK, content_type='application/json')
+
+    def delete(self, request, *args, **kwargs):
+        announce = self.get_object(*args, **kwargs)
+        announce.is_active = False
+        announce.save()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
