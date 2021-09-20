@@ -72,7 +72,7 @@ def one_region_by_name(request, name):
     extra_sql = f"""
     select id, name->>'uz' as name_uz, name->>'ru' as name_ru, sort_order
     from geo_region
-    where name->>'uz' = %s or name->>'ru' = %s
+    where name->>'uz' ILIKE %s or name->>'ru' ILIKE %s
     """
 
     with closing(connection.cursor()) as cursor:
