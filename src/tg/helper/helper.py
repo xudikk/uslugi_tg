@@ -38,24 +38,27 @@ class Helper(UserData):
                 self.change_state({'state': 2})
                 self.go_message(message=Texts['REGION_END_NONE'][txt], user_id=self.user.id, reply_markup=None)
         if user_state == 3:
-            dict = {}
             if ('-' in text) and ('--' not in text) and ('$' not in text):
                 text = text.split('-')
+                dic = {}
                 try:
-                    data = services.searchAnnounceMoney(f"{int(text[0])}_{int(text[1])}_{category_id}")
-                    if data == []:
-                        self.go_message(message=Texts['SUMMA_NONE'][txt], user_id=self.user.id, reply_markup=None)
-                    else:
-                        self.change_state({'state': 4})
-                        self.change_state({'announce': str(data)})
-                        paginator = InlineKeyboardPaginator(
-                            len(data),
-                            data_pattern='character#{page}'
-                        )
-                        self.go_message(message=data[0], user_id=self.user.id, reply_markup=paginator.markup)
+                    dic['from'] = int(text[0])
+                    dic['to'] = int(text[1])
                 except:
+                    self.change_state({'state': 3})
                     self.go_message(message=Texts['SUMMA_ERROR'][txt], user_id=self.user.id, reply_markup=None)
-
+                data = services.searchAnnounceMoney(f"{dic['from']}_{int(dic['to'])}_{category_id}")
+                if data == []:
+                    self.go_message(message=Texts['SUMMA_NONE'][txt], user_id=self.user.id, reply_markup=None)
+                else:
+                    self.change_state({'state': 4})
+                    self.change_state({'announce': str(data)})
+                    paginator = InlineKeyboardPaginator(
+                        len(data),
+                        data_pattern='character#{page}'
+                    )
+                    TEXT = f"""👨‍✈ Xodim {data[0]['fullname']}\n\n📞 Telefon nomer {data[0]['phone_number']}\n\n💵 Ishlash narxi {data[0]['price_from']}-{data[0]['price_to']} so'm\n\n📰 Qo'shimcha malumotlari {data[0]['description']}"""
+                    self.go_message(message=TEXT, user_id=self.user.id, reply_markup=paginator.markup)
             else:
                 self.change_state({'state': 3})
                 self.go_message(message=Texts['SUMMA_ERROR'][txt], user_id=self.user.id, reply_markup=None)
