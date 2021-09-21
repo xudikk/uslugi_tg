@@ -47,10 +47,8 @@ def inline_buttons(type=None, page=None, data=None, lang=1):
     elif type == "edit":
         text = TEXTS["edit_menu_btn"]
         btn = [
-            [InlineKeyboardButton(text["emp"][lang], callback_data="fullname")],
-            [InlineKeyboardButton(text["region"][lang], callback_data="region")],
-            [InlineKeyboardButton(text["contact"][lang], callback_data="contact")],
-            [InlineKeyboardButton(text["price"][lang], callback_data="price")],
+            [InlineKeyboardButton(text["emp"][lang], callback_data="fullname"), InlineKeyboardButton(text["region"][lang], callback_data="region")],
+            [InlineKeyboardButton(text["contact"][lang], callback_data="contact"), InlineKeyboardButton(text["price"][lang], callback_data="price")],
             [InlineKeyboardButton(text["desc"][lang], callback_data="desc")]
         ]
 
