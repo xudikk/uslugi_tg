@@ -98,14 +98,12 @@ def get_all_user(request,  user_id=None):
 
 def one_product(request, id):
     extra_sql = f"""
-        select ann.id, fullname, phone_number, coalesce(price->>'from', '') || '-' ||coalesce(price->>'to', '') as price,
-         description, geo."name"->>'uz' as region_name_uz, geo."name"->>'ru' as region_name_ru, 
-         cat."name"->>'uz' as category_name_uz, cat."name"->>'ru' as category_name_ru
-    from tg_announce ann
-    left join geo_region geo on ann.region_id = geo.id
-    left join tg_announcecategories acat on ann.id = acat.resume_id 
-    left join tg_category cat on acat.category_id = cat.id 
-    where ann.id = %s and ann.is_active = True
+        select ann.id, fullname, phone_number, coalesce(price->>'from', '') || '-' ||coalesce(price->>'to', '') as price, description, geo."name"->>'uz' as region_name_uz, geo."name"->>'ru' as region_name_ru, cat."name"->>'uz' as category_name_uz, cat."name"->>'ru' as category_name_ru
+from tg_announce ann
+left join geo_region geo on ann.region_id = geo.id
+left join tg_announcecategories acat on ann.id = acat.resume_id 
+left join tg_category cat on acat.category_id = cat.id 
+where ann.id = %s
     """
 
     with closing(connection.cursor()) as cursor:
@@ -116,6 +114,7 @@ def one_product(request, id):
         else:
             result = None
 
+        print("RESULT", result)
     return OrderedDict([
         ('item', result)
     ])

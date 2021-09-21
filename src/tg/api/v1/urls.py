@@ -11,11 +11,11 @@ urlpatterns = [
     path('user/', UserView.as_view(), name='tg_user'),
     path('announce/', AnnounceView.as_view(), name='tg_announce'),
     path('announce/<int:id>/', AnnounceView.as_view(), name='tg_announce'),
-
+    path('announce_one/<int:id>/', AnnounceView.as_view(), name='one_announce'),
     path('announse/data/<name>', AnnounceView.as_view(), name='dict-announce'),
-
     path('announce_cat/', AnnounceCatView.as_view(), name='tg_cat_announce'),
-    path('announce/<int:user_id>/', AnnounceView.as_view(), name='user_announce'),
+    path('announces/<int:user_id>/', AnnounceView.as_view(), name='user_announce'),
+    path('announce_edit/<int:id>', AnnounceView.as_view(), name="announce_edit"),
     path('del_announce/<int:id>/', AnnounceView.as_view(), name='delete_announce')
 
 ]

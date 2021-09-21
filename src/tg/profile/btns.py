@@ -24,6 +24,10 @@ def markup_btns(type=None, lang=1):
         btn = [
             [KeyboardButton(TEXTS["BTN_BACK"][lang])]
         ]
+    elif type == "contact":
+        btn = [
+            [KeyboardButton(text="Contact 📞", request_contact=True)]
+        ]
     else:
         btn = []
     return ReplyKeyboardMarkup(btn, one_time_keyboard=True, resize_keyboard=True)
@@ -34,12 +38,32 @@ def inline_buttons(type=None, page=None, data=None, lang=1):
         text = TEXTS["inline_btn"]
         btn = [
             [InlineKeyboardButton(text["BTN_BACK"][lang],
-                                  callback_data=f"page={page['previous'] if page['previous'] != None else 1}"),
+                                  callback_data=f"page={(page['page_num']-1) if page['page_num'] != 1 else page['count']}"),
              InlineKeyboardButton(f"{page['page_num']}/{page['count']}", callback_data="None"),
-             InlineKeyboardButton(text["BTN_NEXT"][lang], callback_data=f"page={page['page_num']+1}")],
+             InlineKeyboardButton(text["BTN_NEXT"][lang], callback_data=f"page={(page['page_num']+1) if page['page_num'] != page['count'] else 1}")],
             [InlineKeyboardButton(text["BTN_DEL"][lang], callback_data=f"delete={data['id']}"),
              InlineKeyboardButton(text["BTN_EDIT"][lang], callback_data=f"edit={data['id']}")]
         ]
+    elif type == "edit":
+        text = TEXTS["edit_menu_btn"]
+        btn = [
+            [InlineKeyboardButton(text["emp"][lang], callback_data="fullname")],
+            [InlineKeyboardButton(text["region"][lang], callback_data="region")],
+            [InlineKeyboardButton(text["contact"][lang], callback_data="contact")],
+            [InlineKeyboardButton(text["price"][lang], callback_data="price")],
+            [InlineKeyboardButton(text["desc"][lang], callback_data="desc")]
+        ]
+
+    elif type == "regions":
+        btn = []
+        temp_btn = []
+        for region in data:
+            temp_btn.append(InlineKeyboardButton(region[f"name_{lang}"], callback_data=region["id"]))
+            if len(temp_btn) == 2:
+                btn.append(temp_btn)
+                temp_btn = []
+        if len(temp_btn) > 0:
+            btn.append(temp_btn)
 
     return InlineKeyboardMarkup(btn)
 

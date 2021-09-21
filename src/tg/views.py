@@ -129,10 +129,14 @@ def received_message(update, context):
     elif tg_model.get("menu_log") == 3:
         root = Profile(context.bot, update, tg_model)
         text = update.message.text
+        message_id = update.message.message_id
+        contact = None
+        if text == None:
+            contact = update.message.contact.phone_number
         if text == TEXTS["menu_profile"]["BTN_TOP"][1] or text == TEXTS["menu_profile"]["BTN_TOP"][2]:
             sendMainMenu(context, user.id, tg_model['lang'])
         else:
-            root.received_message(msg, text)
+            root.received_message(msg, text, message_id, contact)
         return 1
     else:
         sendMainMenu(context, user.id, tg_model['lang'])

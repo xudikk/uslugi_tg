@@ -1,7 +1,6 @@
 import requests as re
 
 from src.settings import API_URL
-from tg.models import Log
 import json
 
 
@@ -44,6 +43,17 @@ def create_cat_announce(an, user):
     response = re.post(url, data=data)
     return response.json()['item']
 
+def edit_announce(id, data):
+    url = API_URL + f"announce_edit/{id}"
+    response = re.put(url, data)
+    print("RESPONSE", response.json()["item"])
+    return response.json()["item"]
+
+def get_announce(id):
+    url = API_URL + f"announce_one/{id}"
+    response = re.get(url)
+    return response.json()['item']
+
 def delete_announce(announce_id):
     url = API_URL + f"del_announce/{announce_id}"
     responce = re.delete(url)
@@ -67,7 +77,7 @@ def get_user(user_id):
 def get_user_log(user_id):
     url = API_URL + f"log/{user_id}/"
     response = re.get(url)
-    print("get", response)
+    print("USER_DATA", response.json())
     return response.json()['item']
 
 
@@ -78,8 +88,9 @@ def create_log(user_id):
     return response.json()['item']
 
 def get_user_announce(user_id, page=1):
-    url = API_URL + f"announce/{user_id}?page={page}"
+    url = API_URL + f"announces/{user_id}?page={page}"
     response = re.get(url)
+    print('salom1', response)
     return response.json()
 
 

@@ -93,5 +93,53 @@ TEXTS = {
     "back_menu": {
         1: "Profile bo'limiga qaytish 👇",
         2: "Вернуться в раздел профиля 👇"
+    },
+    "edit_menu_txt": {
+        "edit_ann": {
+            1: "Siz e\'loningizni qaysi qismini o\'zgartirmoqchisiz?",
+            2: "Какую часть объявления вы хотите изменить?"
+        },
+        "edited":{
+            1: "Sizning e'loningiz o'zgartirildi",
+            2: "Ваше объявление было изменено"
+        },
+        "edit_name": {
+            1: "Ismingizni kiriting:",
+            2: "Введите ваше имя:"
+        },
+        "edit_contact":{
+            1: "Raqamingizni kiriting📱 yoki pastdagi tugmani bosing📲",
+            2: "Введите свой номер📱 или нажмите кнопку ниже📲"
+        },
+        "price": {
+                1: "Ishlamoqchi bo'lgan pul miqdorini kiriting💰\niltimos sumda kiriting\nNamuna(200000sum-300000sum)",
+                2: "Введите сумму, на которую хотите работать"
+        },
+        "description": {
+                1: "O'zingiz va ishingiz haqida qisqacha ma'lumot yozing🛠",
+                2: "Напишите открытку о себе"
+        }
+    },
+    "edit_menu_btn":{
+        "emp": {
+            1: "👨‍💼 Ism, Familiya",
+            2: "👨‍💼 Имя, Фамилия"
+        },
+        "region": {
+            1: "🌐 Hudud",
+            2: "🌐 Область"
+        },
+        "contact":{
+            1: "📞 Telefon raqam",
+            2: "📞 Номер телефона"
+        },
+        "price": {
+            1: "💰 Narxi",
+            2: "💰 Цена"
+        },
+        "desc": {
+            1: "🔎 Ish xaqida",
+            2: "🔎 О работе"
+        }
     }
 }
